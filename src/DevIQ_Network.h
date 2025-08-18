@@ -19,16 +19,16 @@ namespace DeviceIQ_Network {
             uint16_t mOnlineCheckingMinutes = 5;
             bool mDHCP_Client = true;
 
-            String mSSID;
-            String mPassword;
+            String mSSID = "My Network";
+            String mPassphrase = "NoConnection#123!";
             String mSoftAP_SSID = "DeviceIQ";
             String mSoftAP_Password = "DeviceIQ";
             String mHostname = "deviceiq";
 
-            IPAddress mIP;
-            IPAddress mSubnet;
+            IPAddress mIP_Address;
+            IPAddress mNetmask;
             IPAddress mGateway;
-            IPAddress mDNS_Server[2];
+            IPAddress mDNS_Server[2] = { IPAddress(8, 8, 8, 8), IPAddress(8, 8, 4, 4) };
 
             APMode mFormerConnectionMode = APMode::Offline;
             callback_t mOnModeChanged;
