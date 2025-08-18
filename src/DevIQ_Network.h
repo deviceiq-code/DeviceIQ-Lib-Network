@@ -54,8 +54,8 @@ namespace DeviceIQ_Network {
             inline void SSID(String value) { mSSID = value.substring(0, 32); }
             inline String SSID() { return (ConnectionMode() == APMode::SoftAP) ? mSoftAP_SSID : mSSID; }
 
-            inline void Password(String value) { mPassphrase = value.substring(0, 63); }
-            inline String Password() { return (ConnectionMode() == APMode::SoftAP) ? mSoftAP_Password : mPassphrase; }
+            inline void Passphrase(String value) { mPassphrase = value.substring(0, 63); }
+            inline String Passphrase() { return (ConnectionMode() == APMode::SoftAP) ? mSoftAP_Password : mPassphrase; }
 
             inline void SoftAP_SSID(String value) { mSoftAP_SSID = value.substring(0, 32); }
             inline String SoftAP_SSID() { return mSoftAP_SSID; }
