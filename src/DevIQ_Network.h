@@ -54,8 +54,8 @@ namespace DeviceIQ_Network {
             inline void SSID(String value) { mSSID = value.substring(0, 32); }
             inline String SSID() { return (ConnectionMode() == APMode::SoftAP) ? mSoftAP_SSID : mSSID; }
 
-            inline void Password(String value) { mPassword = value.substring(0, 63); }
-            inline String Password() { return (ConnectionMode() == APMode::SoftAP) ? mSoftAP_Password : mPassword; }
+            inline void Password(String value) { mPassphrase = value.substring(0, 63); }
+            inline String Password() { return (ConnectionMode() == APMode::SoftAP) ? mSoftAP_Password : mPassphrase; }
 
             inline void SoftAP_SSID(String value) { mSoftAP_SSID = value.substring(0, 32); }
             inline String SoftAP_SSID() { return mSoftAP_SSID; }
@@ -66,11 +66,11 @@ namespace DeviceIQ_Network {
             inline void Hostname(String value) { mHostname = value.substring(0, 32); }
             inline String Hostname() { return mHostname; }
 
-            inline void IP(IPAddress value) { mIP = value; }
-            inline IPAddress IP() { return mIP; }
+            inline void IP_Address(IPAddress value) { mIP_Address = value; }
+            inline IPAddress IP_Address() { return mIP_Address; }
 
-            inline void Subnet(IPAddress value) { mSubnet = value; }
-            inline IPAddress Subnet() { return mSubnet; }
+            inline void Netmask(IPAddress value) { mNetmask = value; }
+            inline IPAddress Netmask() { return mNetmask; }
 
             inline void Gateway(IPAddress value) { mGateway = value; }
             inline IPAddress Gateway() { return mGateway; }
@@ -89,3 +89,5 @@ namespace DeviceIQ_Network {
             void Control();
     };
 }
+
+#endif
