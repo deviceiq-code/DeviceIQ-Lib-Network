@@ -66,17 +66,21 @@ namespace DeviceIQ_Network {
             inline void Hostname(String value) { mHostname = value.substring(0, 32); }
             inline String Hostname() { return mHostname; }
 
+            inline void IP_Address(String value) { mIP_Address.fromString(value.c_str()); }
             inline void IP_Address(IPAddress value) { mIP_Address = value; }
-            inline IPAddress IP_Address() { return mIP_Address; }
+            inline IPAddress IP_Address() { return (ConnectionMode() == APMode::WifiClient ? WiFi.localIP() : (ConnectionMode() == APMode::SoftAP ? WiFi.softAPIP() : IPAddress(0, 0, 0, 0))); }
 
+            inline void Netmask(String value) { mNetmask.fromString(value.c_str()); }
             inline void Netmask(IPAddress value) { mNetmask = value; }
+            inline void Netmask(uint8_t cidr) { uint32_t subnetMaskValue = 0xFFFFFFFF << (32 - cidr); mNetmask = IPAddress(subnetMaskValue); }
             inline IPAddress Netmask() { return mNetmask; }
 
+            inline void Gateway(String value) { mGateway.fromString(value.c_str()); }
             inline void Gateway(IPAddress value) { mGateway = value; }
-            inline IPAddress Gateway() { return mGateway; }
+            inline IPAddress Gateway() { return WiFi.gatewayIP(); }
 
             inline void DNS_Server(uint8_t index, IPAddress value) { if (index < 2) mDNS_Server[index] = value; }
-            inline IPAddress DNS_Server(uint8_t index) { if (index < 2) return mDNS_Server[index]; return IPAddress(); }
+            inline IPAddress DNS_Server(uint8_t index) { if (index < 2) return mDNS_Server[index]; }
 
             inline int8_t RSSI() { return WiFi.RSSI(); }
 
