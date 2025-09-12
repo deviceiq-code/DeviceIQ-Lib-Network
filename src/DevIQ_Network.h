@@ -22,7 +22,7 @@ namespace DeviceIQ_Network {
             String mSSID = "My Network";
             String mPassphrase = "NoConnection#123!";
             String mSoftAP_SSID = "DeviceIQ";
-            String mSoftAP_Password = "DeviceIQ";
+            String mSoftAP_Password = "";
             String mHostname = "deviceiq";
 
             IPAddress mIP_Address;

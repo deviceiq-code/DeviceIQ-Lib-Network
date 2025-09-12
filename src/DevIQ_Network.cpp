@@ -30,25 +30,44 @@ APMode Network::ConnectionMode() {
 }
 
 APMode Network::Connect() {
-    if (mDHCP_Client == false) {
+    if (mDHCP_Client) {
+        WiFi.config(INADDR_NONE, INADDR_NONE, INADDR_NONE, INADDR_NONE, INADDR_NONE);
+    } else {
         WiFi.config(mIP_Address, mGateway, mNetmask, mDNS_Server[0], mDNS_Server[1]);
-        WiFi.softAPConfig(mIP_Address, mIP_Address, mNetmask);
     }
 
-    WiFi.setHostname(mHostname.c_str());
-    WiFi.softAPsetHostname(mHostname.c_str());
-
     WiFi.mode(WIFI_STA);
+    delay(50);
+    WiFi.setAutoReconnect(true);
+    WiFi.persistent(false);
+    WiFi.setSleep(false);
+    WiFi.setHostname(mHostname.c_str());
+
     WiFi.begin(mSSID, mPassphrase);
-    for (uint16_t timeoutCounter = 0; timeoutCounter < mConnectionTimeout && WiFi.status() != WL_CONNECTED; timeoutCounter++) delay(1000);
+
+    const uint32_t firstAttemptSec = max<uint16_t>(mConnectionTimeout, 25);
+    for (uint16_t s = 0; s < firstAttemptSec && WiFi.status() != WL_CONNECTED; ++s) {
+        delay(1000);
+    }
 
     if (WiFi.status() != WL_CONNECTED) {
         WiFi.mode(WIFI_AP);
-        WiFi.softAP(SoftAP_SSID(), SoftAP_SSID());
+        delay(50);
+
+        IPAddress apIp(192, 168, 77, 1);
+        IPAddress apGw(192, 168, 77, 1);
+        IPAddress apMask(255, 255, 255, 0);
+        WiFi.softAPConfig(apIp, apGw, apMask);
+
+        WiFi.softAPsetHostname(mHostname.c_str());
+
+        const char* apSsid  = SoftAP_SSID().c_str();
+        const char* apPass  = "";
+        WiFi.softAP(apSsid, apPass);
     }
 
-    if ((mOnlineChecking) && (mOnlineCheckingMinutes > 0)) {
-        mOnlineCheckingTimer->SetTimeout(mOnlineCheckingMinutes * 60000);
+    if (mOnlineChecking && (mOnlineCheckingMinutes > 0)) {
+        mOnlineCheckingTimer->SetTimeout(mOnlineCheckingMinutes * 60000UL);
         mOnlineCheckingTimer->Start();
     }
 
