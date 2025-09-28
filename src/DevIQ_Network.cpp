@@ -4,7 +4,7 @@ using namespace DeviceIQ_Network;
 
 Network::Network() {
     mUpdateMode = new DeviceIQ_DateTime::Timer(1000);
-    mOnlineCheckingTimer = new DeviceIQ_DateTime::Timer(mOnlineCheckingMinutes * 60000);
+    mOnlineCheckingTimer = new DeviceIQ_DateTime::Timer(mOnlineCheckingTimeout);
 
     mUpdateMode->OnTimeout([&] { APMode t = ConnectionMode(); if (mFormerConnectionMode != t) { if (mOnModeChanged) mOnModeChanged(); mFormerConnectionMode = t; }});
     mOnlineCheckingTimer->OnTimeout([&] { if (ConnectionMode() != APMode::WifiClient) Connect(); });
@@ -66,8 +66,8 @@ APMode Network::Connect() {
         WiFi.softAP(apSsid, apPass);
     }
 
-    if (mOnlineChecking && (mOnlineCheckingMinutes > 0)) {
-        mOnlineCheckingTimer->SetTimeout(mOnlineCheckingMinutes * 60000UL);
+    if (mOnlineChecking && (mOnlineCheckingTimeout > 0)) {
+        mOnlineCheckingTimer->SetTimeout(mOnlineCheckingTimeout);
         mOnlineCheckingTimer->Start();
     }
 

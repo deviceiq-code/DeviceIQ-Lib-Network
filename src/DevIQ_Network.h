@@ -14,9 +14,9 @@ namespace DeviceIQ_Network {
 
     class Network {
         private:
-            uint16_t mConnectionTimeout = 30; // seconds
+            uint16_t mConnectionTimeout = 30;
             bool mOnlineChecking = true;
-            uint16_t mOnlineCheckingMinutes = 5;
+            uint16_t mOnlineCheckingTimeout = 5 * 60;
             bool mDHCP_Client = true;
 
             String mSSID = "My Network";
@@ -45,8 +45,8 @@ namespace DeviceIQ_Network {
 
             inline void OnlineChecking(bool value) { mOnlineChecking = value; };
             inline bool OnlineChecking() { return mOnlineChecking; };
-            inline void OnlineCheckingMinutes(uint16_t value) { mOnlineCheckingMinutes = value; };
-            inline uint16_t OnlineCheckingMinutes() { return mOnlineCheckingMinutes; };
+            inline void OnlineCheckingTimeout(uint16_t value) { mOnlineCheckingTimeout = value; };
+            inline uint16_t OnlineCheckingTimeout() { return mOnlineCheckingTimeout; };
 
             inline void DHCP_Client(bool value) { mDHCP_Client = value; }
             inline bool DHCP_Client() { return mDHCP_Client; }
