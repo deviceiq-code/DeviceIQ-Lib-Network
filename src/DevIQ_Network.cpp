@@ -74,6 +74,8 @@ APMode Network::Connect() {
     mIP_Address = (ConnectionMode() == APMode::WifiClient ? WiFi.localIP() : (ConnectionMode() == APMode::SoftAP ? WiFi.softAPIP() : IPAddress(0, 0, 0, 0)));
     mGateway = WiFi.gatewayIP();
     mNetmask = WiFi.subnetMask();
+    mDNS_Server[0] = WiFi.dnsIP(0);
+    mDNS_Server[1] = WiFi.dnsIP(1);
 
     return ConnectionMode();
 }
