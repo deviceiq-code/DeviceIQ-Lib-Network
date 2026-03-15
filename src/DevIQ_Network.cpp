@@ -71,6 +71,10 @@ APMode Network::Connect() {
         mOnlineCheckingTimer->Start();
     }
 
+    mIP_Address = (ConnectionMode() == APMode::WifiClient ? WiFi.localIP() : (ConnectionMode() == APMode::SoftAP ? WiFi.softAPIP() : IPAddress(0, 0, 0, 0)));
+    mGateway = WiFi.gatewayIP();
+    mNetmask = WiFi.subnetMask();
+
     return ConnectionMode();
 }
 
